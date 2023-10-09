@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.Arrays;
 
 public class MostrarEspecífico extends JFrame {
     private JPanel panel1;
@@ -54,7 +55,6 @@ public class MostrarEspecífico extends JFrame {
                         }
                         tableModel.addRow(rowData);
                     }
-                    System.out.println(resultSet.getMetaData());
                     resultSet.close();
                     statement.close();
                 } catch (SQLException exception) {

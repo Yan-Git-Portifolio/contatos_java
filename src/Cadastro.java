@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class Cadastro extends JFrame {
     private JPanel panel1;
@@ -41,23 +42,35 @@ public class Cadastro extends JFrame {
                 String emailContent = email.getText();
                 String sexoContent = sexo.getSelectedItem().toString();
 
-                String sql = "INSERT INTO contatos (nome, telefone, email, sexo) VALUES ('"+nomeContent+"', '"+telefoneContent+"', " +
-                        "'"+emailContent+"', '"+sexoContent.charAt(0)+"');";
-                try {
-                    PreparedStatement preparedStatement = conn.getConnection().prepareStatement(sql);
-
-                    Integer rowsAffected = preparedStatement.executeUpdate();
-
-                    if (rowsAffected > 0) {
-                        System.out.println("Data inserted successfully.");
-                    } else {
-                        System.out.println("Data insertion failed.");
+                if(Objects.equals(nomeContent, "")) {
+                    JOptionPane.showMessageDialog(panel1, "O nome não pode estar vazio");
+                } else {
+                    if(Objects.equals(telefoneContent, "")) {
+                        telefoneContent = "não informado";
                     }
 
-                    preparedStatement.close();
-                    conn.getConnection().close();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    if(Objects.equals(emailContent, "")) {
+                        emailContent = "não informado";
+                    }
+
+                    String sql = "INSERT INTO contatos (nome, telefone, email, sexo) VALUES ('"+nomeContent+"', '"+telefoneContent+"', " +
+                            "'"+emailContent+"', '"+sexoContent.charAt(0)+"');";
+                    try {
+                        PreparedStatement preparedStatement = conn.getConnection().prepareStatement(sql);
+
+                        Integer rowsAffected = preparedStatement.executeUpdate();
+
+                        if (rowsAffected > 0) {
+                            System.out.println("Data inserted successfully.");
+                        } else {
+                            System.out.println("Data insertion failed.");
+                        }
+
+                        preparedStatement.close();
+                        conn.getConnection().close();
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         });
